@@ -1,0 +1,42 @@
+version: "3"
+services:
+  vpn_metasploitableii:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - VPN_ENDPOINT_IP=10.0.0.2
+      - VPN_ENDPOINT_PORT=51820
+      - WIREGUARD_PUBLIC_KEY=your-public-key
+      - WIREGUARD_PRIVATE_KEY=your-private-key
+      - WIREGUARD_PRESHARED_KEY=your-preshared-key
+      - WIREGUARD_ADDRESSES=10.8.0.2/24
+  vpn_juiceshop:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - VPN_ENDPOINT_IP=10.0.0.2
+      - VPN_ENDPOINT_PORT=51820
+      - WIREGUARD_PUBLIC_KEY=your-public-key
+      - WIREGUARD_PRIVATE_KEY=your-private-key
+      - WIREGUARD_PRESHARED_KEY=your-preshared-key
+      - WIREGUARD_ADDRESSES=10.8.0.3/24
+  juiceshop:
+    depends_on:
+      - vpn_juiceshop
+    image: bkimminich/juice-shop
+    container_name: juiceshop
+    network_mode: "service:vpn_juiceshop"
+  metasploitable2:
+    depends_on:
+      - vpn_metasploitableii
+    image: tleemcjr/metasploitable2:latest
+    container_name: mestasploitableii
+    network_mode: "service:vpn_metasploitableii"
+    command: /bin/services.sh && bash
+
