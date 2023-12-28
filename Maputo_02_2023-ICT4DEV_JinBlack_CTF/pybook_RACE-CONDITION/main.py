@@ -1,5 +1,4 @@
 import requests
-#import thread
 from threading import Thread
 
 def login(s, u,p):
@@ -7,8 +6,7 @@ def login(s, u,p):
     payload = {"username":u,"password":p}
     
     r = s.post(url,data=payload)
-    #print(r.text)
-
+    print(r.text)
     
 def run(s, code):
     url = "http://pybook.training.jinblack.it/run"
@@ -34,4 +32,3 @@ t2 = Thread(target=run,args=(s,code_P))
 
 t1.start()
 t2.start()
-#un(s,code)
